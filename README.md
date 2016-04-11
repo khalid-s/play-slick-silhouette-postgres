@@ -8,13 +8,18 @@
                                                                   
 
 # play-slick-silhouette-postgre
-This template can be used to scaffold a project based on Play 2.5.x, Slick 3.1.x, Scala 2.11.x and PostgreSQL 9.4.x.
+This template can be used to scaffold a project based on Play 2.5.x, Slick 3.1.x, Silhouette 4.0.0-BETA4, 
+Scala 2.11.x and PostgreSQL 9.4.x.
 
 # Dependencies: build.sbt
 
 ```scala
 "com.typesafe.play" %% "play-slick" % "2.0.0"
 "com.typesafe.play" %% "play-slick-evolutions" % "2.0.0"
+"com.mohiva" %% "play-silhouette" % "4.0.0-BETA4",
+"com.mohiva" %% "play-silhouette-password-bcrypt" % "4.0.0-BETA4",
+"com.mohiva" %% "play-silhouette-persistence-memory" % "4.0.0-BETA4",
+"com.mohiva" %% "play-silhouette-testkit" % "4.0.0-BETA4" % "test",
 ```
 
 # Configuration: application.conf
