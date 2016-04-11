@@ -1,6 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/51da0a5952884822a2abbf64bebb9239)](https://www.codacy.com/app/bazard-philippe/play-slick-silhouette-postgres)
-[![Build Status](https://travis-ci.org/vahana-team/play-slick-postgres.svg?branch=master)](https://travis-ci.org/vahana-team/play-slick-postgres)
-                                                      
+[![Build Status](https://travis-ci.org/vahana-team/play-slick-silhouette-postgres.svg?branch=master)](https://travis-ci.org/vahana-team/play-slick-silhouette-postgres)                                                      
              __     ___    _   _    _    _   _    _      ___ ___  
              \ \   / / \  | | | |  / \  | \ | |  / \    |_ _/ _ \ 
               \ \ / / _ \ | |_| | / _ \ |  \| | / _ \    | | | | |
