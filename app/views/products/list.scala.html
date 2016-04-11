@@ -1,0 +1,33 @@
+@(products: Seq[Product])(implicit lang: Lang, messages: Messages, webJarAssets: WebJarAssets)
+@*
+* Call the the `main` template with two arguments. The first
+* argument is a `String` with the title of the page, the second
+* argument is an `Html` object containing the body of the page.
+*@
+@main(Messages("product database")) {
+
+    <div>
+        <div id="products">
+            <h2>Add a new product:</h2>
+
+            <form action="/product/add" method="POST">
+                <input name="ean" type="text" placeholder="Enter the ean of your product"/>
+                <input name="name" type="text" placeholder="Enter the name of your product"/>
+                <input name="description" type="text" placeholder="Describe your product"/>
+                <input type="submit"/>
+            </form>
+
+            <h2>Previously inserted products:</h2>
+            <table>
+                <tr><th>Name</th><th>Description</th></tr>
+                @for(p <- products) {
+                    <tr>
+                        <td>@p.ean</td>
+                        <td>@p.name</td>
+                        <td>@p.description</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+}

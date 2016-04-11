@@ -1,0 +1,1 @@
+web: target/universal/stage/bin/play-slick-silhouette-postgres -Dhttp.port=${PORT} -Dconfig.resource=${PLAY_CONF_FILE} -Dplay.evolutions.db.default.autoApply=true
