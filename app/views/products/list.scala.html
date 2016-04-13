@@ -1,33 +1,41 @@
-@(products: Seq[Product])(implicit lang: Lang, messages: Messages, webJarAssets: WebJarAssets)
-@*
-* Call the the `main` template with two arguments. The first
-* argument is a `String` with the title of the page, the second
-* argument is an `Html` object containing the body of the page.
-*@
-@main(Messages("product database")) {
+@(user: models.User, productForm: Form[forms.ProductForm.Data], products: Seq[Product])(implicit request: RequestHeader, lang: Lang, messages: Messages, webJarAssets: WebJarAssets)
+@import b3.inline.fieldConstructor
 
-    <div>
-        <div id="products">
-            <h2>Add a new product:</h2>
+@main(Messages("product database"), Some(user)) {
 
-            <form action="/product/add" method="POST">
-                <input name="ean" type="text" placeholder="Enter the ean of your product"/>
-                <input name="name" type="text" placeholder="Enter the name of your product"/>
-                <input name="description" type="text" placeholder="Describe your product"/>
-                <input type="submit"/>
-            </form>
+        <div>
+            @request.flash.get("error").map { msg =>
+                <div class="col-md-6 col-md-offset-3 alert alert-danger alert-error">
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                    <strong>@Messages("error")</strong> @msg
+                </div>
+            }
+            <div id="products">
+                <h2>Add a new product:</h2>
 
-            <h2>Previously inserted products:</h2>
-            <table>
-                <tr><th>Name</th><th>Description</th></tr>
-                @for(p <- products) {
-                    <tr>
-                        <td>@p.ean</td>
-                        <td>@p.name</td>
-                        <td>@p.description</td>
-                    </tr>
+                @helper.form(action = routes.ProductController.add()) {
+                    @helper.CSRF.formField
+                    @b3.number(productForm("ean"))
+                    @b3.text(productForm("name"))
+                    @b3.text(productForm("description"))
+                    <div class="form-group">
+                        <div>
+                            <button id="submit" type="submit" value="submit" class="btn btn-primary btn-block">@Messages("product.add")</button>
+                        </div>
+                    </div>
                 }
-            </table>
+
+                <h2>Previously inserted products:</h2>
+                <table>
+                    <tr><th>Name</th><th>Description</th></tr>
+                    @for(p <- products) {
+                        <tr>
+                            <td>@p.ean</td>
+                            <td>@p.name</td>
+                            <td>@p.description</td>
+                        </tr>
+                    }
+                </table>
+            </div>
         </div>
-    </div>
-}
+    }

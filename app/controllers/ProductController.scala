@@ -1,21 +1,20 @@
 package controllers
 
+import scala.concurrent.Future
 import javax.inject._
 
 import com.mohiva.play.silhouette.api.Silhouette
 import com.mohiva.play.silhouette.api.repositories.AuthInfoRepository
 import com.mohiva.play.silhouette.api.util.Clock
 import com.mohiva.play.silhouette.impl.providers.{CredentialsProvider, SocialProviderRegistry}
+import forms.ProductForm
 import models.Product
 import models.daos.ProductDAO
 import models.services.UserService
 import play.api.Configuration
-import play.api.data.Form
-import play.api.data.Forms._
 import play.api.i18n.I18nSupport
 import play.api.i18n.MessagesApi
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import play.api.mvc.Action
+import play.api.libs.concurrent.Execution.Implicits._
 import play.api.mvc.Controller
 import utils.auth.DefaultEnv
 
@@ -32,21 +31,23 @@ class ProductController @Inject()(val messagesApi: MessagesApi,
                                   implicit val webJarAssets: WebJarAssets)
   extends Controller with I18nSupport {
 
-  val productForm = Form(
-    mapping(
-      "ean" -> longNumber,
-      "name" -> nonEmptyText,
-      "description" -> nonEmptyText
-    )(Product.apply)(Product.unapply)
-  )
-
-  def list = Action.async {
-    productDAO.all().map { case (products) => Ok(views.html.products.list(products)) }
+  def list = silhouette.SecuredAction.async { request =>
+    productDAO.all().map { case (products) => Ok(views.html.products.list(request.identity, ProductForm.form, products)) }
   }
 
-  def add = Action.async { implicit request =>
-    val product: Product = productForm.bindFromRequest.get
-    productDAO.insert(product).map(_ => Redirect(routes.ProductController.list))
+  def add = silhouette.SecuredAction.async { implicit request =>
+
+    ProductForm.form.bindFromRequest.fold(
+      form => Future.successful(BadRequest(views.html.products.details(request.identity,ProductForm.form))),
+      data => {
+        val product = Product(
+          ean = Some(data.ean),
+          name = Some(data.name),
+          description = Some(data.description)
+        )
+        productDAO.insert(product).map(_ => Redirect(routes.ProductController.list))
+      }
+    )
   }
 
 }

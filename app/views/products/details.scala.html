@@ -1,10 +1,8 @@
-@(products: Product)(implicit messages: Messages, lang: Lang, webJarAssets: WebJarAssets)
-@*
-* Call the the `main` template with two arguments. The first
-* argument is a `String` with the title of the page, the second
-* argument is an `Html` object containing the body of the page.
-*@
-@main(Messages("application.name")) {
+@(user: models.User, productForm: Form[forms.ProductForm.Data])(implicit request: RequestHeader, lang: Lang, messages: Messages, webJarAssets: WebJarAssets)
+
+@import b3.inline.fieldConstructor
+
+@main(Messages("application.name"), Some(user)) {
 
     <h2>Product details</h2>
 }

@@ -21,6 +21,7 @@ GET         /message                         controllers.AsyncController.message
 
 # Products management
 GET         /products                        controllers.ProductController.list
+GET         /product/add                     controllers.ProductController.add
 POST        /product/add                     controllers.ProductController.add
 
 # Map static resources from the /public folder to the /assets URL path
