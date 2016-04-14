@@ -7,4 +7,4 @@ package models
   * @param description
   */
 
-case class Product(ean: Option[Long], name: Option[String], description: Option[String])
+case class Product(ean: Long, name: String, description: String)

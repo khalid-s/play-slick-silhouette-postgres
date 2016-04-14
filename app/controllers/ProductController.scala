@@ -31,19 +31,24 @@ class ProductController @Inject()(val messagesApi: MessagesApi,
                                   implicit val webJarAssets: WebJarAssets)
   extends Controller with I18nSupport {
 
-  def list = silhouette.SecuredAction.async { request =>
-    productDAO.all().map { case (products) => Ok(views.html.products.list(request.identity, ProductForm.form, products)) }
+  private val logger = org.slf4j.LoggerFactory.getLogger(this.getClass)
+
+
+  def list = silhouette.SecuredAction.async { implicit request =>
+    productDAO.all().map { products =>
+      logger.info(s"Calling index: products = ${products}")
+      Ok(views.html.products.list(request.identity, ProductForm.form, products))
+    }
   }
 
   def add = silhouette.SecuredAction.async { implicit request =>
-
     ProductForm.form.bindFromRequest.fold(
       form => Future.successful(BadRequest(views.html.products.details(request.identity,ProductForm.form))),
       data => {
         val product = Product(
-          ean = Some(data.ean),
-          name = Some(data.name),
-          description = Some(data.description)
+          ean = data.ean,
+          name = data.name,
+          description = data.description
         )
         productDAO.insert(product).map(_ => Redirect(routes.ProductController.list))
       }
