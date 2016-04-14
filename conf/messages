@@ -42,3 +42,4 @@ yahoo = Yahoo
 
 products = Products
 product.add = Add product
+product.name = Product
