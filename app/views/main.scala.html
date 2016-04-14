@@ -29,12 +29,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="@routes.ApplicationController.index">Your project</a>
+                    <a class="navbar-brand" href="@routes.ApplicationController.index">@Messages("home.title")</a>
                 </div>
                 <nav class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                     @user.map { u =>
-                        <li><a href="@routes.ApplicationController.index">@Messages("home")</a></li>
                         <li><a href="https://github.com/vahana-team/play-slick-silhouette-postgres">GitHub</a></li>
                         <li><a href="@routes.ProductController.list">@Messages("products")</a></li>
                     }
