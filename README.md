@@ -23,7 +23,7 @@ Scala 2.11.x and PostgreSQL 9.4.x.
 "com.mohiva" %% "play-silhouette-testkit" % "4.0.0-BETA4" % "test",
 ```
 
-# Configuration: application.conf
+# Configuration: conf/application.conf
 
 Replace the database section by the parameters below:
 
@@ -33,4 +33,19 @@ slick.dbs.default.db.driver = "org.postgresql.Driver"
 slick.dbs.default.db.url = "jdbc:postgresql://localhost:5432/changeme"
 slick.dbs.default.db.user = "changeme"
 slick.dbs.default.db.password = "changeme"
+```
+
+# Configuration: conf/silhouette.conf
+You can add some OAuth credentials. Taking Facebook for example:
+
+```
+# Facebook provider
+facebook.authorizationURL="https://graph.facebook.com/v2.3/oauth/authorize"
+facebook.accessTokenURL="https://graph.facebook.com/v2.3/oauth/access_token"
+facebook.redirectURL="http://localhost:9000/authenticate/facebook"
+facebook.clientID="changeme"
+facebook.clientID=${?FACEBOOK_CLIENT_ID}
+facebook.clientSecret="changeme"
+facebook.clientSecret=${?FACEBOOK_CLIENT_SECRET}
+facebook.scope="email"
 ```
